@@ -1,94 +1,56 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
-from sklearn.metrics import r2_score
-import numpy as np
+from sklearn.metrics import mean_absolute_error, r2_score
 
-# ----------------------------
-# Load Dataset
-# ----------------------------
+# Load dataset
 df = pd.read_csv("data.csv")
 
-print("="*50)
-print("SALARY PREDICTION PROJECT")
-print("="*50)
+print("========== DATASET ==========")
 print(df)
 
-# ----------------------------
-# Train Model
-# ----------------------------
+# Features and Target
 X = df[['Experience']]
 y = df['Salary']
 
+# Split dataset
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# Train Model
 model = LinearRegression()
-model.fit(X, y)
+model.fit(X_train, y_train)
 
-# ----------------------------
 # Predictions
-# ----------------------------
-predictions = model.predict(X)
+y_pred = model.predict(X_test)
 
-# Accuracy
-score = r2_score(y, predictions)
+# Evaluation
+print("\n========== MODEL PERFORMANCE ==========")
+print("MAE:", mean_absolute_error(y_test, y_pred))
+print("R2 Score:", r2_score(y_test, y_pred))
 
-print("\nModel Accuracy:", round(score * 100, 2), "%")
+# Predict salary for new experience
+experience = [[12]]
+predicted_salary = model.predict(experience)
 
-# ----------------------------
-# Future Prediction
-# ----------------------------
-future_exp = [[12], [15], [20]]
+print("\nPredicted Salary for 12 Years Experience:")
+print("₹", round(predicted_salary[0], 2))
 
-future_salary = model.predict(future_exp)
+# Visualization
+plt.figure(figsize=(8,5))
+plt.scatter(X, y, color='blue', label='Actual Data')
+plt.plot(X, model.predict(X), color='red', linewidth=2,
+         label='Regression Line')
 
-print("\nFuture Salary Forecast")
-print("-"*30)
-
-for exp, sal in zip([12, 15, 20], future_salary):
-    print(f"{exp} Years Experience --> ₹{sal:,.0f}")
-
-# ----------------------------
-# Attractive Visualization
-# ----------------------------
-plt.figure(figsize=(10,6))
-
-plt.scatter(
-    df['Experience'],
-    df['Salary'],
-    s=120,
-    label="Actual Salary Data"
-)
-
-plt.plot(
-    df['Experience'],
-    predictions,
-    linewidth=3,
-    label="Regression Line"
-)
-
-plt.scatter(
-    [12,15,20],
-    future_salary,
-    s=180,
-    marker='*',
-    label="Future Predictions"
-)
-
-for exp, sal in zip([12,15,20], future_salary):
-    plt.annotate(
-        f"₹{int(sal)}",
-        (exp, sal),
-        textcoords="offset points",
-        xytext=(0,10),
-        ha='center'
-    )
-
-plt.title("Employee Salary Prediction Using Machine Learning", fontsize=16)
-plt.xlabel("Years of Experience")
-plt.ylabel("Salary (₹)")
+plt.title("Salary vs Experience")
+plt.xlabel("Experience (Years)")
+plt.ylabel("Salary")
 plt.legend()
 plt.grid(True)
 
-plt.savefig("salary_prediction_dashboard.png", dpi=300)
+plt.savefig("prediction.png")
 plt.show()
 
-print("\nDashboard saved as salary_prediction_dashboard.png")
+print("\nGraph saved as prediction.png")
