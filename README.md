@@ -1,43 +1,40 @@
-# 🚀 Salary Prediction Using Machine Learning
+# Salary Prediction Using Machine Learning
 
-## 📌 Project Overview
-This project predicts employee salaries based on years of experience using the Linear Regression Machine Learning algorithm.
+## Project Overview
+This project predicts employee salary based on years of experience using Machine Learning.
 
-## 🎯 Objectives
-- Analyze employee salary data
-- Train a Machine Learning model
-- Predict future salaries
-- Visualize salary trends
-- Generate salary forecasts
-
-## 🛠 Technologies Used
+## Technologies Used
 - Python
 - Pandas
-- NumPy
 - Matplotlib
-- Scikit-Learn
+- Scikit-learn
 
-## 🤖 Machine Learning Model
-Linear Regression
+## Algorithm
+- Linear Regression
 
-## 📊 Features
-✔ Data Analysis  
-✔ Salary Prediction  
-✔ Future Forecasting  
-✔ Accuracy Evaluation  
-✔ Professional Visualization  
+## Features
+- Load dataset
+- Train model
+- Predict salary
+- Evaluate accuracy
+- Visualize results
 
-## 📈 Output
-- Regression Graph
-- Future Salary Forecast
-- Accuracy Score
+## Project Structure
 
-## ▶ Run
+Salary-Prediction/
+│
+├── data.csv
+├── model.py
+├── prediction.png
+└── README.md
 
-```bash
-pip install pandas numpy matplotlib scikit-learn
+## Installation
+
+pip install pandas matplotlib scikit-learn
+
+## Run
+
 python model.py
-```
 
-## 👨‍💻 Author
-Sivanesh S
+## Output
+A graph showing Salary vs Experience with a Linear Regression line.
